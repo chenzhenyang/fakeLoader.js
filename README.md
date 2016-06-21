@@ -36,7 +36,7 @@ hide调用之前调用了多少次mask就必须调用多少次hide才能隐藏�
 <h1>4. Options</h1>
 <pre>
 <code><p>&lt;script type="text/javascript"&gt;</p>
-    $("#fakeLoader").fakeLoader({
+    var  fakeLoader = new FakeLoader({
             timeToHide:-1, // Default Time to hide fakeLoader
             pos:'fixed',// Default Position
             top:'0px',  // Default Top value
