@@ -24,17 +24,35 @@ function centerLoader(el) {
  }
 
 function FakeLoader(opts){
+	
+	var mask_body = $('<div class="mask_body"></div>');
+	mask_body.css({
+		"display":"none",
+		"position":"absolute",
+		"top":"0px",
+		"left":"0px",
+		"width":"100%",
+		"height":"100%",
+		"background-color":"white",
+		"z-index":"1001",
+		"-moz-opacity":"0.7",
+		"opacity":"0.7",
+		"filter":"alpha(opacity=70)"
+	});
+	
 	var childNodes = $('body').children();
 	if(childNodes.length>0){
 		var dom = $('<div class="fakeloader"></div>');
-		var dom2 = $(childNodes[0]);
-		dom.insertBefore(dom2);
+		var firstChild = $(childNodes[0]);
+		mask_body.insertBefore(firstChild);
+		dom.insertBefore(firstChild);
 	}else{
 		$('body').append('<div class="fakeloader"></div>');
 	}
 	
 	var dom = $('body').find(".fakeloader");
 	this.$element = dom;
+	this.$mask_body = mask_body;
 	this.$settings = $.extend({
             timeToHide:-1, // Default Time to hide fakeLoader
             pos:'fixed',// Default Position
@@ -71,7 +89,8 @@ function FakeLoader(opts){
 			'right':settings.right,
 			'bottom':settings.bottom,
 			'border-radius': settings.border_radius,
-			'margin':'auto'
+			'margin':'auto',
+			"cursor":"wait"
     };
 	
 	var el = this.$element;
@@ -141,6 +160,7 @@ FakeLoader.prototype = {
 		
 		if(numberHideTimes==0){
 			this.$element.fadeOut();
+			this.$mask_body.fadeOut();
 		}else if(numberHideTimes<0){
 			this.$settings.numberHideTimes==0;
 		}else{
@@ -168,7 +188,13 @@ FakeLoader.prototype = {
             'zIndex':this.$settings.zIndex
 		});
 			
-		el.fadeIn();
+		el.fadeIn("fast",function(){
+			
+		});
+		
+		this.$mask_body.fadeIn("fast",function(){
+			
+		})
 	}
 }
 
